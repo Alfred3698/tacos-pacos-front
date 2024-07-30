@@ -3,91 +3,98 @@
         <div class="row">
             <div class="col-12">
                 <accordion>
-                    <!-- ///////////  BALANCE ////////////-->
-                    <accordion-group class="title-accordion" style="background-color: crimson;" [isOpen]="true">
+                    <!-- ********* BALANCE *********-->
+                    <accordion-group [isOpen]="true">
                         <span accordion-heading>
-                            <label style="font-size: 15pt; font-weight: bold;">Balance</label> &nbsp; <i   style="float: right;" class='fa fa-chevron-down'></i>
+                            <label class="tab-title">Balance</label> &nbsp; <i
+                                style="float: right;" class='fa fa-chevron-down'></i>
                         </span>
                         <div class="row">
                             <div class="col-2 sm-12 md-2">
-                                <app-primary-button description="VENTAS" icon="dollar-sign"
-                                    total="{{getTotalSales() | currency}}" backgrounColor="blueBtn"
+                                <app-primary-button description="{{balanceType.VENTAS}}" icon="dollar-sign"
+                                    total="{{totalSales | currency}}" backgrounColor="blueBtn"
                                     (checkedEvent)="onCheckedEvent($event)"></app-primary-button>
 
-                                <app-primary-button description="GASTOS" icon="arrow-trend-down"
-                                    total="{{getTotalExpenses() | currency}}" backgrounColor="orangeBtn"
+                                <app-primary-button description="{{balanceType.GASTOS}}" icon="arrow-trend-down"
+                                    total="{{totalExpenses | currency}}" backgrounColor="orangeBtn"
                                     (checkedEvent)="onCheckedEvent($event)"></app-primary-button>
 
-                                <app-primary-button description="PROFIT" icon="money-bill-trend-up"
-                                    total="{{getProfit() | currency}}" backgrounColor="greenBtn"
+                                <app-primary-button description="{{balanceType.PROFIT}}" icon="money-bill-trend-up"
+                                    total="{{profit | currency}}" backgrounColor="greenBtn"
                                     (checkedEvent)="onCheckedEvent($event)"></app-primary-button>
+                                <div style="text-align: center;"><i class="fas fa-chart-simple" style="color: #3c8be6;"
+                                        aria-hidden="true"></i>&nbsp;<label
+                                        style="color: #60bb60; font-weight: bold;">{{profitPercent}}</label></div>
                             </div>
 
 
                             <div class="col-10 md-10 sm-12">
                                 <div class="row">
                                     <div class="sm-12" style="width: 14.2%;">
-                                        <div style="display: flex;">
+                                        <div style="display: flex; width: 100%;">
                                             <!-- Los colores ponerle el borde solamente-->
                                             <div class="cards-total"
-                                                style="width: 130px; height: auto; padding: 0.3%; background-color: #60bb60; text-align: center; opacity: 0.8;">
-                                                <label style="margin: 0; color: #fff;">Efectivo</label>
+                                                style="width: 50% !important; height: auto; padding: 0.3%; border:solid 1px #478b47; text-align: center; opacity: 0.8;">
+                                                <label style="margin: 0; color: #60bb60;">Efectivo</label>
                                             </div>
-                                            <label class="cards-total total">{{getTotalCash() | currency}}</label>
+                                            <!--<label class="cards-total total">{{totalCash | currency}}</label>-->
+                                            <input-text style="width: 50% !important; font-weight: bold; height: 100%;" (onChangeEvent)="onChangeTotalIncome($event, paymentMethod.CASH)" class="cards-total total" value="{{totalCash | currency}}"  />
+                                        </div>
+                                    </div>
+                                    <div class="sm-12" style="width: 14.2%;">
+                                        <div style="display: flex; width: 100%;">
+                                            <div class="cards-total"
+                                                style="width: 50%; height: auto; padding: 0.3%; border:solid 1px #c147cc; text-align: center;">
+                                                <label style="margin: 0; color: #c147cc;">Tarjeta</label>
+                                            </div>
+                                            <!--<label class="cards-total total">{{(totalCard) | currency}}</label>-->
+                                            <input-text style="width: 50% !important; font-weight: bold; height: 100%;" (onChangeEvent)="onChangeTotalIncome($event, paymentMethod.CARD)" class="cards-total total" value="{{totalCard | currency}}"  />
+
                                         </div>
                                     </div>
                                     <div class="sm-12" style="width: 14.2%;">
                                         <div style="display: flex;">
                                             <div class="cards-total"
-                                                style="width: 130px; height: auto; padding: 0.3%; background-color: rgb(193, 71, 204); text-align: center;">
-                                                <label style="margin: 0; color: #fff;">Tarjeta</label>
+                                                style="width: 130px; height: auto; padding: 0.3%; border:solid 1px #eb4949; text-align: center;">
+                                                <label style="margin: 0; color: #eb4949;">Pay</label>
                                             </div>
-                                            <label class="cards-total total">{{getTotalCard() | currency}}</label>
+                                            <label class="cards-total total">{{ totalPay | currency}}</label>
                                         </div>
                                     </div>
                                     <div class="sm-12" style="width: 14.2%;">
                                         <div style="display: flex;">
                                             <div class="cards-total"
-                                                style="width: 130px; height: auto; padding: 0.3%; background-color: rgb(235, 73, 73); text-align: center;">
-                                                <label style="margin: 0; color: #fff;">Pay</label>
+                                                style="width: 130px; height: auto; padding: 0.3%; border:solid 1px #f8a130; text-align: center;">
+                                                <label style="margin: 0; color: #f8a130;">Apps</label>
                                             </div>
-                                            <label class="cards-total total">{{ getTotalPay() | currency}}</label>
+                                            <label class="cards-total total">{{totalApps | currency}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="sm-12" style="width: 14.2%;">
+                                        <div style="display: flex;">
+                                            <div class="cards-total ellipsis"
+                                                style="width: 130px; height: auto; padding: 0.3%; border:solid 1px #a0a0a0; text-align: center;">
+                                                <span style="margin: 0; color: #a0a0a0;" title="Por Cobrar">Por Cobrar</span>
+                                            </div>
+                                            <label class="cards-total total">{{totalPorCobrar | currency}}</label>
                                         </div>
                                     </div>
                                     <div class="sm-12" style="width: 14.2%;">
                                         <div style="display: flex;">
                                             <div class="cards-total"
-                                                style="width: 130px; height: auto; padding: 0.3%; background-color: rgb(248, 161, 48); text-align: center;">
-                                                <label style="margin: 0; color: #fff;">Apps</label>
+                                                style="width: 130px; height: auto; padding: 0.3%; border:solid 1px #3c8be6; text-align: center;">
+                                                <label style="margin: 0; color: #3c8be6;">Total</label>
                                             </div>
-                                            <label class="cards-total total">{{getTotalApps() | currency}}</label>
+                                            <label class="cards-total total">{{ total | currency}}</label>
                                         </div>
                                     </div>
                                     <div class="sm-12" style="width: 14.2%;">
                                         <div style="display: flex;">
                                             <div class="cards-total"
-                                                style="width: 130px; height: auto; padding: 0.3%; background-color: rgb(160, 160, 160); text-align: center;">
-                                                <label style="margin: 0; color: #fff;">Por Cobrar</label>
+                                                style="width: 130px; height: auto; padding: 0.3%; border:solid 1px #ffd341; text-align: center;">
+                                                <label style="margin: 0; color: #ffd341;">Gap</label>
                                             </div>
-                                            <label class="cards-total total">{{0 | currency}}</label>
-                                        </div>
-                                    </div>
-                                    <div class="sm-12" style="width: 14.2%;">
-                                        <div style="display: flex;">
-                                            <div class="cards-total"
-                                                style="width: 130px; height: auto; padding: 0.3%; background-color: rgb(60, 139, 230); text-align: center;">
-                                                <label style="margin: 0; color: #fff;">Total</label>
-                                            </div>
-                                            <label class="cards-total total">{{ getTotal() | currency}}</label>
-                                        </div>
-                                    </div>
-                                    <div class="sm-12" style="width: 14.2%;">
-                                        <div style="display: flex;">
-                                            <div class="cards-total"
-                                                style="width: 130px; height: auto; padding: 0.3%; background-color: rgb(255, 211, 65); text-align: center;">
-                                                <label style="margin: 0; color: #fff;">Gap</label>
-                                            </div>
-                                            <label class="cards-total total">{{getTotalGap() | currency}}</label>
+                                            <label class="cards-total total">{{totalGap | currency}}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -101,71 +108,188 @@
                         </div>
                     </accordion-group>
 
-                    <!-- ///////////  VENTAS ////////////-->
-                    <accordion-group [isOpen]="true">
+                    <!-- ********* VENTAS *********-->
+                    <accordion-group [isOpen]="false">
                         <span accordion-heading>
-                            <label style="font-size: 15pt; font-weight: bold;">Ventas</label> &nbsp; <i style="float: right;" class='fa fa-chevron-down'></i>
+                            <label class="tab-title">Ventas</label> &nbsp; <i
+                                style="float: right;" class='fa fa-chevron-down'></i>
                         </span>
                         <ventas-chart [sales]="sales" [isResultadosScreen]="true"
-                            (typeFilterEvent)="filterCharts($event)" />
+                            (typeFilterEvent)="filterCharts($event)" [brandSelected]="brandSelected" />
                         <div class="row" style="margin-top: 2rem;">
                             <div class="col-4 md-4 sm-12">
                                 <div class="line-title"><label>Venta Diaria</label></div>
                                 <canvas baseChart class="chart" style="height: 150px !important;" [data]="barChartData"
                                     [options]="barChartOptions" [type]="barChartType"></canvas>
                             </div>
+                            <div class="col-5 md-5 sm-12">
+                                <div class="line-title"><label>Tipo de Pago</label></div>
+                                <tipo-pago-chart [payment]="paymentType" />
+                            </div>
                             <div class="col-2 md-2 sm-12">
                                 <div class="line-title"><label>Ticket Promedio</label></div>
-                                <div class="row" style="font-size: 11pt; margin-top: 1rem;">
+                                <div class="row" style="font-size: 9pt; margin-top: 1rem;" *ngFor="let ticket of ticketsTargetList">
                                     <div class="col-8 md-8 sm-12">
-                                        Tacos Pacos
+                                        {{ticket.name}}
                                     </div>
                                     <div class="col-4 md-4 sm-12">
-                                        <label>N/A</label>
+                                        <label>{{ticket.average | currency}}</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-1 md-1 sm-12">
                                 <div class="line-title"><label># Ordenes</label></div>
-                                <div class="row" style="font-size: 11pt; margin-top: 1rem; text-align: center;">
+                                <div class="row" style="font-size: 9pt; margin-top: 1rem; text-align: center;"  *ngFor="let ticket of ticketsTargetList">
                                     <div class="col-12 md-12 sm-12">
-                                        0
+                                        {{ticket.count}}
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-5 md-5 sm-12">
-                                <div class="line-title"><label>Tipo de Pago</label></div>
-                                <div class="row" style="font-size: 11pt; margin-top: 3%;">
-                                    <div class="col-2 md-2 sm-12"><span
-                                            style="background-color: rgb(224, 224, 224);; padding: 5px; color: #60bb60; font-weight: bold;">Efectivo</span>
-                                    </div>
-                                    <div class="col-3 md-3 sm-12">{{getTypePay().cash.total | currency}}</div>
-                                    <div class="col-1 md-1 sm-12"> {{getTypePay().cash.percent}}%</div>
-                                    <div class="col-2 md-2 sm-12"><span
-                                            style="background-color: rgb(224, 224, 224);; padding: 5px; color: #e68c38; font-weight: bold;">Tarjeta</span>
-                                    </div>
-                                    <div class="col-3 md-3 sm-12">{{getTypePay().card.total | currency}}</div>
-                                    <div class="col-1 md-1 sm-12">{{getTypePay().card.percent}}%</div>
                                 </div>
                             </div>
                         </div>
                     </accordion-group>
 
-                    <!-- ///////////  GASTOS ////////////-->
-                    <accordion-group class="title-accordion" style="background-color: crimson;" [isOpen]="true">
+                    <!-- **********  GASTOS  ********** /-->
+                    <accordion-group [isOpen]="false">
                         <span accordion-heading>
-                            <label style="font-size: 15pt; font-weight: bold;">Gastos</label> &nbsp; <i style="float: right;" class='fa fa-chevron-down'></i>
+                            <label class="tab-title">Gastos</label> &nbsp; <i
+                                style="float: right;" class='fa fa-chevron-down'></i>
                         </span>
-                        <gastos-chart [expenses]="expenses" [foodCategories]="foodCategories" />
+                        <gastos-chart [expenses]="expenses" [foodCategories]="foodCategories"
+                            (onChangeCategoryEvent)="onChangeCategory($event)" />
+
+                        <div class="row" style="margin-top: 1rem;" *ngIf="foodSupplier.length > 0">
+                            <div class="col-12 md-12 sm-12">
+                                <div class="row">
+                                    <div class="col-12 md-12 sm-12 line-title">
+                                        <label>{{ foodCategorySelected }}</label>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="typeFilterExpenses != 'ALL'">
+                                    <div class="col-12 md-12 sm-12">
+                                        <div
+                                            style="display: flex; max-width: 100%; flex-wrap: wrap; align-items: center;">
+                                            <div *ngFor="let sup of foodSupplier"
+                                                style="display: flex; text-align: center; width: calc(100% / 6); margin: 1rem;">
+                                                <div class="ellipsis"
+                                                    style="width: 50%; background-color: #d1d1d1; padding: 5px; color: #e68c38; font-weight: bold;">
+                                                    {{sup.name}}
+                                                </div>
+                                                <label style="margin-left: 10px; margin-top: 2%;">{{sup.total |
+                                                    currency}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 1%;" *ngIf="typeFilterExpenses == 'ALL'">
+                                    <div class="col-3" *ngFor="let sup of foodSupplier" style="margin-bottom: 1%;">
+                                        <category-supplier-card [nameCategory]="sup.name"
+                                            [data]="sup.providers"></category-supplier-card>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </accordion-group>
+
+                    <!--************  CUENTAS POR COBRAR *************-->
+
+                    <accordion-group [isOpen]="false">
+                        <span accordion-heading>
+                            <label class="tab-title">Cuentas por Cobrar</label> &nbsp; <i
+                                style="float: right;" class='fa fa-chevron-down'></i>
+                        </span>
 
                         <div class="row">
-
+                            <div class="col-5 md-5 sm-12">
+                                <table style="width: 100%;">
+                                    <thead style="background-color: #a0a0a0; font-size: 11pt;">
+                                        <tr>
+                                            <th style="background-color: #a0a0a0; width: 5%;"></th>
+                                            <th style="width: 30%;">Concepto</th>
+                                            <th style="width: 30%;">Monto</th>
+                                            <th style="width: 20%;">Pago</th>
+                                            <th style="width: 15%;">Tipo de Pago</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="tr-hover" title="Editar" *ngFor="let cc of cuentasPorCobrar; let i = index;" (click)="editCuentasPorCobrar(cc, template)">
+                                            <td style="background-color: #a0a0a0;">{{i+1}}</td>
+                                            <td>{{cc.concept}}</td>
+                                            <td>{{cc.amount | currency}}</td>
+                                            <td>
+                                                {{cc.isPay?'SI':'NO'}}
+                                            </td>
+                                            <td>
+                                                {{!cc.operationType ? '-' : cc.operationType.name}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-1">
+                                        <div
+                                            style=" border: solid 1px #d1d1d1; width: 25px; height: 25px; margin-top: 10px; border-radius: 5px; cursor: pointer;" title="Agregar">
+                                            <i style="font-size: 16pt;" class="fa fa-plus" (click)="openModal(template)"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 md-3 sm-12"></div>
                         </div>
                     </accordion-group>
                 </accordion>
             </div>
-
         </div>
     </div>
-
 </div>
+
+
+<ng-template #template >
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Cuentas por cobrar</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12 md-12 sm-12">
+                <label>Concepto</label>
+                <br>
+                <input type="text" class="form-control" [(ngModel)]="cuentaPorCobrar.concepto">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 md-12 sm-12">
+                <label>Monto</label>
+                <br>
+                <input type="text" class="form-control" [(ngModel)]="cuentaPorCobrar.monto" formatoMoneda>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 md-6 sm-12">
+                <label>Pago</label><br>
+                <select (change)="onChangePay($any($event.target).value)" class="form-selected form-control">
+                    <option [selected]="cuentaPorCobrar.pago == 'SI'"  value="SI">SI</option>
+                    <option [selected]="cuentaPorCobrar.pago == 'NO'" value="NO">NO</option>
+                </select>
+            </div>
+            <div class="col-6 md-6 sm-12"><label>*Tipo de pago</label>
+                <select (change)="onChangePayType($any($event.target).value)" class="form-selected form-control">
+                    <option *ngFor="let op of operationsCategories" [selected]="cuentaPorCobrar!.tipoPago.id == op.id"  value="{{op.id}}">{{op.name}}</option>
+                </select>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-3">
+                <button (click)="saveCuentaPorCobrar()">Guardar</button>
+            </div>
+            <div class="col-6"></div>
+            <div class="col-3">
+                <button *ngIf="cuentaPorCobrar.id != null" style="float: right; background-color: #eb4949 !important;" (click)="deleteCuentaPorCobrar()">Eliminar</button>
+            </div>
+        </div>
+        
+    </div>
+</ng-template>

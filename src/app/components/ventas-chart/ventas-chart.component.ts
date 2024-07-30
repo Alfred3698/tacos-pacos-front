@@ -15,6 +15,7 @@ export class VentasChartComponent implements OnChanges, OnInit {
 
     @Input() sales: any[] = []
     @Input() isResultadosScreen: boolean = false
+    @Input() brandSelected: any
     @ViewChildren(BaseChartDirective) charts: QueryList<BaseChartDirective> | undefined;
     @Output() typeFilterEvent: EventEmitter<any> = new EventEmitter()
     public pieChartPlugins = [];
@@ -36,6 +37,9 @@ export class VentasChartComponent implements OnChanges, OnInit {
 
     pieChartOptions: ChartOptions = pieChartOptions
 
+    commerces: any[] = []
+    salesChannel: Array<any> = []
+
     ngOnInit(): void {
         this.typeFilterBarChart = this.isResultadosScreen ? 1 : 2
     }
@@ -44,6 +48,7 @@ export class VentasChartComponent implements OnChanges, OnInit {
     ngOnChanges(changes: SimpleChanges): void {
         this.getPaymentType()
         this.fillDonughtChart()
+        this.getCommerces()
     }
 
 
@@ -54,9 +59,7 @@ export class VentasChartComponent implements OnChanges, OnInit {
         let data: any[] = []
         this.barChartData.datasets = []
         this.barChartData.labels = []
-
-        let grouped = !this.isBtnMonthActive ? groupArrayByKey(this.sales, 'day') : groupArrayByKey(this.sales, 'month')
-
+        let grouped = !this.isBtnMonthActive ? groupArrayByKey(this.sales, 'day') : groupArrayByKey(this.sales, 'shortMonth')
         let barchartLabels = Object.keys(grouped)
 
         let listTotalDinningRoom: any = []
@@ -65,27 +68,23 @@ export class VentasChartComponent implements OnChanges, OnInit {
         let listTotalRappi: any = []
         let listTotalVenta: any = []
 
-        let months = this.dates.getMonths(false)
+        let months = this.dates.getMonths()
         if (this.isResultadosScreen) {
-           
+
             months.map((m: any) => {
-                this.barChartData.labels?.push(m.name)
+                this.barChartData.labels?.push(m.name.toUpperCase())
                 listTotalDinningRoom.push(0)
                 listTotalDidi.push(0)
                 listTotalUber.push(0)
                 listTotalRappi.push(0)
                 listTotalVenta.push(0)
             })
-
         }
-
-
         barchartLabels.map((day: any) => {
             let monthIndex = 0
-            if(this.isResultadosScreen) {
-                monthIndex = months.find((m:any) => m.name == day).id - 1
+            if (this.isResultadosScreen) {
+                monthIndex = months.find((m: any) => m.name.toUpperCase() == day).id - 1
             }
-            
 
             let dataDay = grouped[day]
             let totalDinnigRoom = 0
@@ -100,7 +99,7 @@ export class VentasChartComponent implements OnChanges, OnInit {
                 totalRappi += this.isBtnParrotActive == 2 ? Number(d.apps.rappi.sale) : Number(d.apps.rappi.income)
             })
 
-            if(!this.isResultadosScreen) {
+            if (!this.isResultadosScreen) {
                 listTotalDinningRoom.push(totalDinnigRoom)
                 listTotalDidi.push(totalDidi)
                 listTotalUber.push(totalUber)
@@ -172,12 +171,56 @@ export class VentasChartComponent implements OnChanges, OnInit {
             let percentUber = Math.round((totalUber * 100) / total)
             let percentRappi = Math.round((totalRappi * 100) / total)
 
-            this.channelSales = {
-                totalDinnigRoom: (totalDinnigRoom + totalDelivery + totalPickUp + totalTakeout),
-                totalUber: totalUber,
-                totalDidi: totalDidi,
-                totalRappi: totalRappi
-            }
+            this.channelSales = [
+                {
+                    name: 'Total',
+                    total: total,
+                    percent: total > 0 ? 100 : 0,
+                    color: "#fff"
+                },
+                {
+                    name: 'Comedor',
+                    total: totalDinnigRoom,
+                    percent: percentDinningRoom ? percentDinningRoom : 0,
+                    color: this.chartColors.dinningRoom
+                },
+                {
+                    name: 'Para Llevar',
+                    total: totalTakeout,
+                    percent: percentTakeOut ? percentTakeOut : 0,
+                    color: this.chartColors.dinningRoom
+                },
+                {
+                    name: 'Recoger',
+                    total: totalPickUp,
+                    percent: percentPickUp ? percentPickUp : 0,
+                    color: this.chartColors.dinningRoom
+                },
+                {
+                    name: 'Domicilio',
+                    total: totalDelivery,
+                    percent: percentDelivery ? percentDelivery : 0,
+                    color: this.chartColors.dinningRoom
+                },
+                {
+                    name: 'Uber',
+                    total: totalUber,
+                    percent: percentUber ? percentUber : 0,
+                    color: this.chartColors.uber
+                },
+                {
+                    name: 'Didi',
+                    total: totalDidi,
+                    percent: percentDidi ? percentDidi : 0,
+                    color: this.chartColors.didi
+                },
+                {
+                    name: 'Rappi',
+                    total: totalRappi,
+                    percent: percentRappi ? percentRappi : 0,
+                    color: this.chartColors.rappi
+                }
+            ]
 
             this.salesDonutChartData = Charts.Donut(['Comedor', 'ParaLlevar', 'Recoger', 'Domicilio', 'Uber', 'Didi', 'Rappi'], [percentDinningRoom, percentTakeOut, percentPickUp, percentDelivery, percentUber, percentDidi, percentRappi], [this.chartColors.dinningRoom, this.chartColors.dinningRoom, this.chartColors.dinningRoom, this.chartColors.dinningRoom, this.chartColors.uber, this.chartColors.didi, this.chartColors.rappi])
             this.fillBarChart(this.typeFilterBarChart, this.typeFilterAppBarChart)
@@ -202,5 +245,9 @@ export class VentasChartComponent implements OnChanges, OnInit {
         this.paymentType.totalPayment = Number(totalPayment.toFixed(2))
         this.paymentType.percentParrot = percentParrot ? `${Math.round(percentParrot)}%` : '0%'
         this.paymentType.percentPayment = percentPayment ? `${Math.round(percentPayment)}%` : '0%'
+    }
+
+    getCommerces() {
+        this.commerces = this.brandSelected?.commerces.map((c: any) => { return { ...c, total: 0, percent: '100%' } })
     }
 }

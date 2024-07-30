@@ -1,0 +1,72 @@
+.container-card {
+    width: 20%;
+}
+
+.cards-total {
+    height: 1.5rem;
+    font-size: 9pt;
+    margin-right: 0.4rem;
+    border-radius: 5px;
+    font-weight: bold;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.total {
+    font-weight: 600;
+    font-size: 9pt;
+    margin-top: 1%;
+    //text-align: center !important;
+}
+
+
+table {
+    margin-top: 2rem;
+    thead {
+        color: #fff;
+        font-size: 9pt;
+        text-align: center;
+        tr {
+            height: 1.5rem;
+            th {
+                border-right: solid 1px #fff;
+            }
+        }
+    }
+
+    tbody {
+        font-size: 9pt;
+        text-align: center;
+        tr {
+            height: 1.5rem;
+            td {
+                border-right: solid 1px #fff;
+            }
+        }
+    }
+}
+
+table tbody tr td:first-child {
+    font-weight: bold;
+    text-align: start;
+    background-color: #fff !important;
+}
+
+table tbody tr td:last-child {
+    background-color: #ddebf7 !important;
+}
+
+.input-sin-bordes {
+    border: none; /* Quita el borde */
+    outline: none; /* Quita el resaltado al enfocar */
+    padding: 0px; /* Añade un poco de espacio interno */
+    //margin: 5px; /* Añade un poco de margen externo */
+    width: 100%; /* Define un ancho */
+    height: 100%;
+    font-weight: bold;
+    background-color: transparent;
+}
+
+.input-sin-bordes:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1); /* Opcional: añade un sombreado al enfocar */
+}

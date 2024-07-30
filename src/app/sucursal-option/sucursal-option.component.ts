@@ -3,6 +3,8 @@ import { AuthService } from '../auth/auth.service';
 import { Route, Router } from '@angular/router';
 import { SucursalOptionService } from './sucursal-option.service';
 import { Marca } from '../models/model';
+import { LoadingService } from '../components/loading/loading.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sucursal-option',
@@ -19,7 +21,7 @@ export class SucursalOptionComponent implements OnInit {
   showAlert: boolean = false
   messageAlert: string = ""
 
-  constructor(private route: Router, private authService: AuthService, private service: SucursalOptionService) {
+  constructor(private route: Router, private authService: AuthService, private service: SucursalOptionService, private loading: LoadingService, private toast: ToastrService) {
     this.usuario = JSON.parse(authService.getUserLogged())
   }
 
@@ -51,7 +53,7 @@ export class SucursalOptionComponent implements OnInit {
    */
   goDashboard(): void {
     if (Object.keys(this.marcaSelected).length > 0 && this.marcaSelected.sucursal) {
-      sessionStorage.setItem('marcaSeleccionada', JSON.stringify(this.marcaSelected))
+      sessionStorage.setItem('marcaSeleccionada', JSON.stringify(this.marcaSelected.sucursal))
       this.route.navigate(['/dashboard/inicio'])
     } else {
       this.messageAlert = "Favor de seleccionar todas las opciones"
@@ -66,12 +68,18 @@ export class SucursalOptionComponent implements OnInit {
    * Llamado de servicio para obtener el arbol de marcas
    */
   callServiceGetMarcas() {
+    this.loading.start()
     this.service.getMarcas().subscribe({
-      next: (resp: any) => { 
+      next: (resp: any) => {
         this.marcas = resp
       },
-      error: (e) => {console.error(e)},
-      complete: () => {}  
+      error: (e) => {
+        this.toast.error("Ha ocurrido un error, intente mas tarde")
+        this.loading.stop()
+      },
+      complete: () => {
+        this.loading.stop()
+      }
     })
   }
 }

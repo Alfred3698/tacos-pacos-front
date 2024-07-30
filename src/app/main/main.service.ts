@@ -34,9 +34,6 @@ export class MainService {
   private filterRage = new BehaviorSubject(null)
   $filterRange = this.filterRage.asObservable();
 
-  private loading = new BehaviorSubject(false)
-  $loading = this.loading.asObservable()
-
 
   constructor(private http: HttpClient) { }
 
@@ -44,12 +41,12 @@ export class MainService {
     this.pageName.next(name)
   }
 
-  getPageName() {
+  get currentPage() {
     return this.pageName.value
   }
 
-  async getProvidersCategories() {
-    let url = this.endPoint.concat('expense/provider-categories')
+  async getProvidersCategories(branchId: number) {
+    let url = this.endPoint.concat(`expense/provider-categories/${branchId}`)
     this.http.get(url).subscribe({
       next: (result: any) => {
         this.providersCategories.next(result)
@@ -60,8 +57,8 @@ export class MainService {
     })
   }
 
-  async getFoodCategories() {
-    let url = this.endPoint.concat('expense/food-categories')
+  async getFoodCategories(branchId: number) {
+    let url = this.endPoint.concat(`expense/food-categories/${branchId}`)
     this.http.get(url).subscribe({
       next: (result: any) => {
         this.foodCategories.next(result)
@@ -88,6 +85,10 @@ export class MainService {
     this.brandSelected.next(brand)
   }
 
+  get currentBranch(): any {
+    return this.brandSelected.value
+  }
+
   onChangeFilterMonth(month: any){
     this.filterMonth.next(month)
   }
@@ -98,10 +99,6 @@ export class MainService {
 
   onChangeFilterRange(dates: any) {
     this.filterRage.next(dates)
-  }
-
-  isLoading(loading: boolean) {
-    this.loading.next(loading)
   }
 
 }

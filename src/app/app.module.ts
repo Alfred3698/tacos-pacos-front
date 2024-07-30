@@ -43,6 +43,19 @@ import { HeaderTblSalesComponent } from './components/header-tbl-sales/header-tb
 import { VentasChartComponent } from './components/ventas-chart/ventas-chart.component';
 import { GastosChartComponent } from './components/gastos-chart/gastos-chart.component';
 import { GastosCheckComponent } from './components/gastos-check/gastos-check.component';
+import { RowTotalNegocioComponent } from './components/row-total-negocio/row-total-negocio.component';
+import { CategorySupplierCardComponent } from './components/category-supplier-card/category-supplier-card.component';
+import { CurrencyPipe } from '@angular/common';
+import { ProfitEstimatesComponent } from './pages/profit-estimates/profit-estimates.component';
+import { InputTextComponent } from './components/input-text/input-text.component';
+import { InsumosComponent } from './pages/insumos/insumos.component';
+import { TipoPagoChartComponent } from './components/tipo-pago-chart/tipo-pago-chart.component';
+import { TblSalesLeft } from './components/tbl-sales-left/tbl-sales-left.component';
+import { HeaderTblLeftComponent } from './components/header-tbl-left/header-tbl-left.component';
+import { RowGuisadoComponent } from './components/row-guisado/row-guisado.component';
+import { HeaderTblGuisadoComponent } from './components/header-tbl-guisado/header-tbl-guisado.component';
+import { ModalGuisadoComponent } from './components/modal-guisado/modal-guisado.component';
+import { DecimalOnlyDirective } from './directivas/decimal-only.directive';
 
 @NgModule({
   declarations: [
@@ -71,7 +84,20 @@ import { GastosCheckComponent } from './components/gastos-check/gastos-check.com
     HeaderTblSalesComponent,
     VentasChartComponent,
     GastosChartComponent,
-    GastosCheckComponent
+    GastosCheckComponent,
+    RowTotalNegocioComponent,
+    CategorySupplierCardComponent,
+    SupplierComponent,
+    ProfitEstimatesComponent,
+    InputTextComponent,
+    InsumosComponent,
+    TipoPagoChartComponent,
+    TblSalesLeft,
+    HeaderTblLeftComponent,
+    RowGuisadoComponent,
+    HeaderTblGuisadoComponent,
+    ModalGuisadoComponent,
+    DecimalOnlyDirective
   ],
   imports: [
     BrowserModule,
@@ -93,10 +119,9 @@ import { GastosCheckComponent } from './components/gastos-check/gastos-check.com
     MatTableModule,
     MatPaginatorModule,
     BsDatepickerModule,
-    BsDatepickerModule.forRoot(),
-    SupplierComponent
+    BsDatepickerModule.forRoot()
   ],
-  providers: [BsLocaleService],
+  providers: [BsLocaleService, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

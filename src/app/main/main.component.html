@@ -1,9 +1,9 @@
 <div class="main-content">
-  <app-loading [visible]="isLoading"></app-loading>
+  <app-loading></app-loading>
   <div class="header">
     <div class="menu-content">
       <div class="dashboard-menu">
-        <app-menu class="menu-content"></app-menu>
+        <app-menu class="menu-content" [brand]="brandData"></app-menu>
       </div>
     </div>
     <div class="header-remains">
@@ -22,7 +22,7 @@
           <div class="col-4 sm-12 md-4">
             <select class="form-control" (change)="onChangeMonth($event)">
               <option *ngFor="let month of months" value="{{ month.id }}" [selected]="currentMonth.id == month.id">
-                {{ month.name }}
+                {{ month.name}}
               </option>
             </select>
           </div>
@@ -37,11 +37,8 @@
   </div>
   <div id="content-body" class="content-body">
     <div class="body-main">
-      
       <router-outlet></router-outlet>
     </div>
-
-    
   </div>
 
   <ng-template #template>

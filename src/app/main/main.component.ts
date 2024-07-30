@@ -8,12 +8,11 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements AfterViewInit {
+export class MainComponent {
   currentPage: string = ""
   messageAlert: string = ""
   showAlert: boolean = true
   dates = new Dates()
-  isLoading!: boolean
 
   months: any[] = new Dates().getMonths()
   years: number[] = new Dates().getYears()
@@ -24,10 +23,10 @@ export class MainComponent implements AfterViewInit {
   maxDate = new Date()
 
   modalRef?: BsModalRef
+  brandData: any
 
   constructor(private service: MainService, private modalService: BsModalService) {
-    service.getFoodCategories()
-    service.getProvidersCategories()
+   
     service.getOperationsCategories()
     service.setBranSelected(sessionStorage.getItem('marcaSeleccionada'))
 
@@ -37,14 +36,16 @@ export class MainComponent implements AfterViewInit {
     let minMaxDate = this.dates.getStartAndEndYear(this.dates.getCurrentYear())
     this.minDate = this.dates.convertToDate(minMaxDate.start)
     this.maxDate = this.dates.convertToDate(minMaxDate.end)
-    
-
-    service.$loading.subscribe((isLoading: boolean) => {
-      this.isLoading = isLoading
-    })
 
     this.service.$pageName.subscribe((name: string) => {
       this.currentPage = name
+    })
+
+    service.$brandSelected.subscribe((brand: any) => {
+      brand = JSON.parse(brand)
+      this.brandData = brand
+      service.getFoodCategories(brand.id)
+      service.getProvidersCategories(brand.id)
     })
 
     let currenNumbertMonth = (this.dates.getCurrentMonth() + 1)
@@ -54,11 +55,6 @@ export class MainComponent implements AfterViewInit {
 
     this.service.onChangeYear(this.currentYear)
    
-  }
-
-  ngAfterViewInit(): void {
-    this.isLoading = false
-    
   }
 
   onChangeMonth(e: any) {

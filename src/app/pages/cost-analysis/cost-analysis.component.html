@@ -1,1 +1,137 @@
-<p>cost-analysis works!</p>
+<div class="row" style=" margin: 0; width: 100% !important;">
+
+    <div class="row">
+        <div class="col-12 md-12 sm-12">
+            <button style="font-size: 7pt;" (click)="onClickRegisterGuisado(template)">Registrar Guisado</button>
+        </div>
+    </div>
+
+    <div class="row" style="height: 1rem;"></div>
+    <div class="row" style="margin-bottom: 1rem;">
+        <div class="col-12 md-12 sm-12">
+            <div style="display: flex;">
+                <button class="button-switch"
+                    style="font-size: 9pt;" 
+                    [ngClass]="{'btn-active': isTabTaco, 'btn-inactive': !isTabTaco}"
+                    (click)="isTabTaco=true">Tacos</button>
+                <button class="button-switch"
+                    style="font-size: 9pt;" 
+                    [ngClass]="{'btn-active': !isTabTaco, 'btn-inactive': isTabTaco}"
+                    (click)="isTabTaco=false">Gorditas</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Tacos-->
+    <div *ngIf="isTabTaco" class="row">
+        <div class="col-1 px-0" *ngIf="tacosList.length > 0">
+            <div *ngFor="let item of mainHedaer">
+                <table class="table ca-section-container">
+                    <tr class="ca-table-row-header"></tr>
+                    <tr class="ca-table-row-body">
+                        <td class="primary-text">Costo</td>
+                    </tr>
+                    <tr class="secondary-color ca-table-row-body">
+                        <td class="primary-text">60%</td>
+                    </tr>
+                    <tr>
+                        <td class="primary-text ca-table-row-body">Venta</td>
+                    </tr>
+                    <tr class="secondary-color ca-table-row-body">
+                        <td class="primary-text">%</td>
+                    </tr>
+                    <tr class="ca-table-row-body"></tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-11 px-0 mx-0">
+            <div class="grid-container"><!--GridContainer-->
+                <div class="grid-item" *ngFor="let item of tacosList"><!--Item-->
+                    <table width="100%" class="table ca-section-container">
+                        <tr class="ca-table-header primary-color ca-table-row-header">
+                            <td style="cursor: pointer;" (click)="editGuiso(item, template)">{{item.name}}</td>
+                        </tr>
+                        <tr class="ca-table-row-body">
+                            <td class="text-center">{{item.costo | currency}}</td>
+                        </tr>
+                        <tr class="ca-table-row-body secondary-color">
+                            <td class="text-center">{{item.percent60 |currency}}</td>
+                        </tr>
+                        <tr class="ca-table-row-body">
+                            <td class="text-center">{{item.venta | currency}}</td>
+                        </tr>
+                        <tr class="ca-table-row-body secondary-color">
+                            <td class="text-center">{{item.percent }}%</td>
+                        </tr>
+                        <tr class="ca-table-row-body"></tr>
+                    </table>
+                </div><!--item-->
+            </div><!--GridContainer-->
+        </div>
+    </div>
+
+    <!--Gorditas-->
+    <div *ngIf="!isTabTaco" class="row">
+        <div class="col-1 px-0" *ngIf="gorditasList.length > 0">
+            <div *ngFor="let item of mainHedaer">
+                <table class="table ca-section-container">
+                    <tr class="ca-table-row-header"></tr>
+                    <tr class="ca-table-row-body">
+                        <td class="primary-text">Costo</td>
+                    </tr>
+                    <tr class="secondary-color ca-table-row-body">
+                        <td class="primary-text">60%</td>
+                    </tr>
+                    <tr>
+                        <td class="primary-text ca-table-row-body">Venta</td>
+                    </tr>
+                    <tr class="secondary-color ca-table-row-body">
+                        <td class="primary-text">%</td>
+                    </tr>
+                    <tr class="ca-table-row-body"></tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-11 px-0 mx-0">
+            <div class="grid-container"><!--GridContainer-->
+                <!--Item-->
+                <div class="grid-item" *ngFor="let item of gorditasList">
+                    <table width="100%" class="table ca-section-container">
+                        <tr class="ca-table-header primary-color ca-table-row-header">
+                            <td>{{item.name}}</td>
+                        </tr>
+                        <tr class="ca-table-row-body">
+                            <td class="text-center">{{item.costo | currency}}</td>
+                        </tr>
+                        <tr class="ca-table-row-body secondary-color">
+                            <td class="text-center">{{item.percent60 |currency}}</td>
+                        </tr>
+                        <tr class="ca-table-row-body">
+                            <td class="text-center">{{item.venta | currency}}</td>
+                        </tr>
+                        <tr class="ca-table-row-body secondary-color">
+                            <td class="text-center">{{item.percent }}%</td>
+                        </tr>
+                        <tr class="ca-table-row-body"></tr>
+                    </table>
+                </div><!--item-->
+            </div><!--GridContainer-->
+        </div>
+    </div>
+</div>
+
+
+
+<!---:::::::::::::: MODAL REGISTRO DE GUISADO ::::::::::::::-->
+<ng-template #template>
+<modal-guisado 
+(closeModalEvent)="closeModal()" 
+(saveEvent)="saveGuiso($event)"
+(deleteEvent)="deleteGuisado($event)"
+[branchId]="currentBranch.id" 
+[categorias]="categoriesList" 
+[insumos]="insumosList"
+[guisoEdit]="guisoEdit" 
+/>
+</ng-template>

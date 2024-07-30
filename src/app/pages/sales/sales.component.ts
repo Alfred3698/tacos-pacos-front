@@ -3,13 +3,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MainService } from 'src/app/main/main.service';
 import { SalesService } from './sales-service.service';
-import { firstUpperCase, groupArrayByKey, barChartOptions, donutChartOptions, pieChartOptions, ReportChannel, fixedData } from 'src/app/util/util';
+import { firstUpperCase, groupArrayByKey, ReportChannel, fixedData, Pages } from 'src/app/util/util';
 import { ToastrService } from 'ngx-toastr';
 import { Dates } from 'src/app/util/Dates';
-import { ChartConfiguration, ChartData, ChartOptions, ChartType } from 'chart.js';
-import { Charts } from 'src/app/util/Charts';
-import { BaseChartDirective } from 'ng2-charts';
 import * as moment from 'moment';
+import { LoadingService } from 'src/app/components/loading/loading.service';
 
 @Component({
   selector: 'app-sales',
@@ -27,41 +25,23 @@ export class SalesComponent implements OnInit, AfterViewInit {
   salesToShow: any[] = []
   currentYear: number = this.dates.getCurrentYear()
   currentMonthSelected: any = { id: 0, name: 'Anual' }
-  //@ViewChildren(BaseChartDirective) chart: QueryList<BaseChartDirective> | undefined;
-  //donutChartOptions: ChartConfiguration['options'] = donutChartOptions
-
-  //barChartData: ChartData<'bar'> = { labels: [], datasets: [] };
-  //barChartOptions: ChartOptions = barChartOptions
-  //public barChartType: ChartType = 'bar';
-
-  //pieChartOptions: ChartOptions = pieChartOptions
-  //public pieChartPlugins = [];
-
-  //applicationsDataChart: any
-  //salesDonutChartData: any
-  //chartColors = { general: '#2b65ab', dinningRoom: "#3889EB", uber: "#31B968", rappi: "#F31A86", didi: "#F37D1A" }
   filterDate: any = {}
 
-  //channelSales: any = {}
-
-  //isBtnMonthActive = false
-  //isBtnParrotActive = 2
-  //private typeFilterBarChart = 2
-  //private typeFilterAppBarChart = 1
-
-  //paymentType: any = {}
   isOpenDesgloce: boolean = false
   isAnual: boolean = false
 
 
-  constructor(private mainService: MainService, private salesService: SalesService, private toast: ToastrService) {
-    mainService.setPageName("Ventas")
+  constructor(private mainService: MainService,
+    private salesService: SalesService,
+    private toast: ToastrService,
+    private loading: LoadingService) {
+    mainService.setPageName(Pages.SALES)
   }
 
   ngAfterViewInit(): void {
     document.getElementById("desgloce")?.click()
     setTimeout(() => {
-      let rowBody = document.getElementsByClassName("row-body")
+      let rowBody = document.getElementsByClassName("hiddenScroll")
       Array.from(rowBody).forEach(el => el.addEventListener('scroll', e => {
         Array.from(rowBody).forEach(d => {
           d.scrollLeft = el.scrollLeft
@@ -80,42 +60,56 @@ export class SalesComponent implements OnInit, AfterViewInit {
     })
 
     document.getElementById("content-body")?.addEventListener("scroll", (e) => {
-      let tbl = document.getElementsByTagName('table')[1]
-      let offset = tbl.getBoundingClientRect()
-
-      let header = document.getElementById("hiddenHeader")
-
-      if (offset.top <= 14) {
-        header!.style.visibility = 'visible'
-      } else {
-        header!.style.visibility = 'hidden'
-      }
+      console.log( document.getElementsByTagName('table'))
+      let headerLeft = document.getElementsByTagName('table')[2]
+      let headerRight = document.getElementsByTagName('table')[3]
+      if (headerRight) {this.hiddenTblHeader(headerRight, 'hiddenHeader')}
+      if (headerRight) {this.hiddenTblHeader(headerRight, 'hiddenHeaderLeft')}
     })
+  }
+
+  hiddenTblHeader(tbl: any, id: string){
+    let offset = tbl.getBoundingClientRect()
+
+    let header = document.getElementById(id)
+
+    if (offset.top <= 14) {
+      header!.style.visibility = 'visible'
+    } else {
+      header!.style.visibility = 'hidden'
+    }
   }
 
   onFilterDates() {
     this.mainService.$filterMonth.subscribe((month: any) => {
-      this.currentMonthSelected = month
-      this.isAnual = month.id == 0
-      let dates = month.id == 0 ? this.dates.getStartAndEndYear(this.currentYear) : this.dates.getStartAndEndDayMonth(month.id, this.currentYear)
-      this.filterDate = { start: dates.start, end: dates.end }
-      this.getReportSalesByDateRange(dates.start, dates.end)
+      if (this.mainService.currentPage == Pages.SALES) {
+        this.currentMonthSelected = month
+        this.isAnual = month.id == 0
+        let dates = month.id == 0 ? this.dates.getStartAndEndYear(this.currentYear) : this.dates.getStartAndEndDayMonth(month.id, this.currentYear)
+        this.filterDate = { start: dates.start, end: dates.end }
+        this.getReportSalesByDateRange(dates.start, dates.end)
+      }
+
     })
 
     this.mainService.$filterRange.subscribe((dates: any) => {
-      if (dates) {
-        this.isAnual = false
-        this.filterDate = { start: dates.start, end: dates.end }
-        this.getReportSalesByDateRange(dates.start, dates.end)
+      if (this.mainService.currentPage == Pages.SALES) {
+        if (dates) {
+          this.isAnual = false
+          this.filterDate = { start: dates.start, end: dates.end }
+          this.getReportSalesByDateRange(dates.start, dates.end)
+        }
       }
     })
 
     this.mainService.$yearsFilter.subscribe((year: any) => {
-      this.currentYear = year;
-      this.isAnual = this.currentMonthSelected.id == 0
-      let months = this.currentMonthSelected.id == 0 ? this.dates.getStartAndEndYear(year) : this.dates.getStartAndEndDayMonth(this.currentMonthSelected.id, year)
-      this.filterDate = { start: months.start, end: months.end }
-      this.getReportSalesByDateRange(months.start, months.end)
+      if (this.mainService.currentPage == Pages.SALES) {
+        this.currentYear = year;
+        this.isAnual = this.currentMonthSelected.id == 0
+        let months = this.currentMonthSelected.id == 0 ? this.dates.getStartAndEndYear(year) : this.dates.getStartAndEndDayMonth(this.currentMonthSelected.id, year)
+        this.filterDate = { start: months.start, end: months.end }
+        this.getReportSalesByDateRange(months.start, months.end)
+      }
     })
   }
 
@@ -129,8 +123,7 @@ export class SalesComponent implements OnInit, AfterViewInit {
 
   onFileUpload() {
     if (this.selectedFile) {
-
-      this.mainService.isLoading(true)
+      this.loading.start()
       const formData = new FormData();
       formData.append('file', this.selectedFile);
 
@@ -144,10 +137,10 @@ export class SalesComponent implements OnInit, AfterViewInit {
           }
         },
         error: (e) => {
+          this.loading.stop()
           this.toast.error(`Ocurrio un error al subir el archivo: ${e.error.message}`)
-          this.mainService.isLoading(false)
         }, complete: () => {
-          this.mainService.isLoading(false)
+          this.loading.stop()
         }
       })
 
@@ -156,29 +149,24 @@ export class SalesComponent implements OnInit, AfterViewInit {
   }
 
   getSales() {
-    this.mainService.isLoading(true)
+    this.loading.start()
     this.salesService.getSales(this.brandSelected.id).subscribe({
       next: (res) => {
         if (Array.isArray(res)) {
           let sales = res.map(s => {
             return { ...s, date: s.createdAt.substring(0, 10) }
           })
-
           this.sumDataSales(groupArrayByKey(sales, 'date'))
-
-          this.mainService.isLoading(false)
         } else {
           this.toast.error("Ha ocurrido un error", "Error")
-          this.mainService.isLoading(false)
         }
       },
       error: (e) => {
-        this.mainService.isLoading(false)
+        this.loading.stop()
         this.toast.error("Ha ocurrido un error", "Error")
-        console.error(e)
       },
       complete: () => {
-        // this.mainService.isLoading(false)
+        this.loading.stop()
       }
     })
   }
@@ -203,7 +191,7 @@ export class SalesComponent implements OnInit, AfterViewInit {
   }
 
   getReportSalesByDateRange(startDate: string, endDate: string) {
-    this.mainService.isLoading(true)
+    this.loading.start()
     this.salesService.getReportSalesByDateRange(this.brandSelected.id, startDate, endDate).subscribe({
       next: (data: any) => {
         if (Array.isArray(data)) {
@@ -216,6 +204,7 @@ export class SalesComponent implements OnInit, AfterViewInit {
 
             let day = firstUpperCase(s.day)
             let month = this.dates.getMonthName(s.dateSale)
+            let shortMonth = this.dates.getMonthName(s.dateSale, 'MMM')
             let weekday = new Date(s.dateSale).getDay()
 
             let apps = this.fillSalesTbl(s)
@@ -226,7 +215,8 @@ export class SalesComponent implements OnInit, AfterViewInit {
             let totalIncome = (Number(apps.uber.income) + Number(apps.didi.income) + Number(apps.rappi.income)).toFixed(2)
             apps.parrot.commission = Number((Number(apps.parrot.income) * 0.04).toFixed(2))
 
-            return { ...s, totalSale: totalSale.toFixed(2), diningRoom, pickUp, takeout, delivery, totalDinnigRoom: Number(totalDinnigRoom.toFixed(2)), day, apps, totalApps: totalApps.toFixed(2), month, totalIncome: Number(totalIncome), weekday }
+            return { ...s, totalSale: totalSale.toFixed(2), diningRoom, pickUp, takeout, delivery, totalDinnigRoom: Number(totalDinnigRoom.toFixed(2)), day, apps, totalApps: totalApps.toFixed(2), month, totalIncome: Number(totalIncome), weekday,
+              shortMonth: shortMonth.replace(".", "").toUpperCase() }
           })
 
           this.sales = sales
@@ -240,11 +230,11 @@ export class SalesComponent implements OnInit, AfterViewInit {
 
       },
       error: (e) => {
+        this.loading.stop()
         this.toast.error("Ocurrio un error al intentar obtener las ventas")
       },
       complete: () => {
-        this.mainService.isLoading(false)
-
+        this.loading.stop()
       }
     })
   }
@@ -259,8 +249,13 @@ export class SalesComponent implements OnInit, AfterViewInit {
     return { parrot: fixedData(parrot), uber: fixedData(uber), didi: fixedData(didi), rappi: fixedData(rappi) }
   }
 
-
-
+  /**
+   * Llama servicio para guardar los ingresos de Parrot
+   * @param index index del row
+   * @param sale venta seleccionada
+   * @param value nuevo valor de ingresos
+   * @returns 
+   */
   setValueIncome(index: number, sale: any, value: any) {
     if (!value) return
 
@@ -282,6 +277,15 @@ export class SalesComponent implements OnInit, AfterViewInit {
     })
   }
 
+  /**
+   * Llama servicio para guardar el ingreso de las plataformas
+   * @param saleP 
+   * @param sale 
+   * @param dateSale 
+   * @param value 
+   * @param channel 
+   * @returns 
+   */
   setIncomePlatforms(saleP: any, sale: any, dateSale: string, value: any, channel: any) {
     if (!value) return
 

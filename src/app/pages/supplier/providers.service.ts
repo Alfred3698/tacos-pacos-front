@@ -11,10 +11,16 @@ export class ProvidersService {
   constructor(private httpClient:HttpClient) {
   }
 
-  getProviders() {
-    let url = this.url.concat('expense/provider-categories')
+  getProviders(branchId: number) {
+    let url = this.url.concat(`expense/provider-categories/${branchId}`)
     return this.httpClient.get(url)
   }
+
+  getFoodCategoriesByProvider(id: number, branchId: number) {
+    let url = this.url.concat(`expense/food-categories-by-provider-id/${id}/${branchId}`)
+    return this.httpClient.get(url)
+  }
+
 
   saveProvider(data: any, branchId: number) {
     let url = this.url.concat(`expense/provider?branchId=${branchId}`)
@@ -25,4 +31,5 @@ export class ProvidersService {
     let url = this.url.concat(`expense/provider?branchId=${branchId}&id=${id}`)
     return this.httpClient.delete(url)
   }
+
 }

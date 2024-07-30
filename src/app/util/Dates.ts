@@ -20,15 +20,15 @@ export class Dates {
     public getMonthName(date: string, format: string = "MMMM") {
         try {
             const dateM = moment(date, 'DD-MM-yyyy')
-            return firstUpperCase(dateM.format(format))
+            return dateM.format(format).toUpperCase()
         } catch (e) {
             return ''
         }
     }
 
-    formatDate(date: any, format: string = 'DD-MM-yyyy') {
-        const dateM = moment(date, 'DD-MM-yyyy HH:mm:ss')
-        return dateM.format(format)
+    formatDate(date: any, formatTo: string = 'DD-MM-yyyy', formatOf: string = 'DD-MM-yyyy HH:mm:ss') {
+        const dateM = moment(date, formatOf)
+        return dateM.format(formatTo)
     }
 
     convertToDate(date: any) {
@@ -38,10 +38,11 @@ export class Dates {
 
     getMonths(shortName: boolean = true): any[] {
         const meses = [];
+        let format = shortName ? 'MMM': 'MMMM'
         for (let i = 0; i < 12; i++) {
-            const mes = moment().month(i).format('MMMM');
-            
-            meses.push({id: i+1, name: shortName ? firstUpperCase(mes).substring(0,3) : firstUpperCase(mes)});
+            const mes = moment().month(i).format(format);
+            const mFormat = moment().month(i).format("DD-MM-YYYY")
+            meses.push({id: i+1, name: firstUpperCase(mes.replace(".","")), mFormat});
         }
         return meses
     }
@@ -85,9 +86,17 @@ export class Dates {
     }
 
     getWeekNumberDay(date: string) {
-        console.log(date)
         let r = new Date(date)
         return r.getDay()
+    }
+
+    public getMonthNumber(date: string, format: string = "M") {
+        try {
+            const dateM = moment(date, 'DD-MM-yyyy')
+            return dateM.format(format)
+        } catch (e) {
+            return 0
+        }
     }
 }
 

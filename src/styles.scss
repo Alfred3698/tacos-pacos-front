@@ -35,7 +35,7 @@ $tacos-pacos-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-$primaryColor: #1d3fd7;
+$primaryColor: #090661;
 $primaryColorBlack: #21496b;
 $fontColor: #fff;
 $fontSizeTitle: 19pt;
@@ -95,4 +95,17 @@ bs-datepicker-container { z-index: 3000 !important;}
     font-size: 14pt;
     font-weight: bold;
     color: $primaryColorBlack;
+}
+
+.ellipsis {
+    // width: 100%;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+ }
+
+ .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
