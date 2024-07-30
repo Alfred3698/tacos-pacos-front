@@ -9,5 +9,7 @@ RUN npm run build --prod
 # Etapa de producción
 FROM nginx:latest
 COPY --from=build /app/dist/tacos-pacos /usr/share/nginx/html/
+# Copiar el archivo de configuración de nginx personalizado
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
