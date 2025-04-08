@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Pages } from 'src/app/util/util';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -10,6 +11,7 @@ import { Pages } from 'src/app/util/util';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
+  @Input() isSidebarMinimized: boolean = true;
   isMenuOpen: boolean = true;
   usuario: any = {}
   marcaSeleccionada : any = {}

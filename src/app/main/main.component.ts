@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
+import { AfterViewInit, Component, OnChanges, SimpleChanges, TemplateRef, Input } from '@angular/core';
 import { MainService } from './main.service';
 import { Dates } from '../util/Dates';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -24,6 +24,7 @@ export class MainComponent {
 
   modalRef?: BsModalRef
   brandData: any
+ 
 
   constructor(private service: MainService, private modalService: BsModalService) {
    

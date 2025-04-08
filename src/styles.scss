@@ -35,7 +35,7 @@ $tacos-pacos-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-$primaryColor: #090661;
+$primaryColor: #323663;
 $primaryColorBlack: #21496b;
 $fontColor: #fff;
 $fontSizeTitle: 19pt;
@@ -84,9 +84,11 @@ button:active {
  }
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+html, body { 
+    height: 100%; 
+    margin: .5rem; 
+    font-family: "Montserrat", sans-serif;
+}
 
 bs-datepicker-container { z-index: 3000 !important;}
 
