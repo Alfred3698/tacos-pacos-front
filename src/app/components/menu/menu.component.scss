@@ -3,13 +3,12 @@
 .menu-container {
   position:fixed;
   width: 13rem;
-  height: 98%;
+  height: 100%;
   background-color: $primaryColor;
   color: $fontColor;
   transition-duration: 300ms;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: .75rem;
 }
 .menu-header-logo {
   width: 10rem;
@@ -23,7 +22,7 @@
   justify-content: center;
   align-items: center;
   padding: 0.2rem 0;
-  border-radius: .75rem;
+  background-color: #f1f1f1;
 }
 
 .content-current-title {
