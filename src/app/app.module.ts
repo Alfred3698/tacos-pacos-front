@@ -19,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { InventarioComponent } from './pages/inventario/inventario.component';
 import { NgChartsModule } from 'ng2-charts';
 import { PrimaryButtonComponent } from './components/primary-button/primary-button.component';
-import { AccordionModule } from 'ngx-bootstrap/accordion';
+/* import { AccordionModule } from 'ngx-bootstrap/accordion'; */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonCComponent } from './components/button-c/button-c.component';
 import { BillsComponent } from './pages/expenses/expenses.component';
@@ -58,6 +58,7 @@ import { ModalGuisadoComponent } from './components/modal-guisado/modal-guisado.
 import { DecimalOnlyDirective } from './directivas/decimal-only.directive';
 import { LoaderComponent } from './components/loader/loader.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { AccordionModule } from 'primeng/accordion';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     AccordionModule,
     BrowserAnimationsModule,
     ModalModule,
+    AccordionModule,
     ModalModule.forRoot(),
     SelectDropDownModule,
     ToastrModule.forRoot({

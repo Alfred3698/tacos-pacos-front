@@ -14,9 +14,9 @@
        
       </div>
       <div class="col-9 sm-9 md-9 lg-9 sections">
-        <div class="row">
+        <div class="row" style="margin-top:.5rem">
           <div class="col-4 sm-12 md-4">
-            <select class="form-control" [(ngModel)]="currentYear" (change)="onChangeYear($event)">
+            <select class="form-control" [(ngModel)]="currentYear" (change)="onChangeYear($event)" >
               <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
             </select>
           </div>
@@ -28,7 +28,7 @@
             </select>
           </div>
           <div class="col-4 sm-12 md-4">
-            <button class="form-control filterButton" (click)="openModal(template)" type="button">
+            <button class="form-control filterButton" (click)="openModal(template)" type="button" > 
               Rango
             </button>
           </div>

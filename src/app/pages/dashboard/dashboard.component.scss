@@ -1,4 +1,5 @@
 
+
 .greenBtn {
     --btn-background:  rgb(108, 187, 55);
  }
@@ -92,4 +93,9 @@ loader {
   height: 100%;
   position: absolute;
   left: 0%;
+}
+
+.content-balance {
+  display: flex;
+  justify-content: space-between;
 }

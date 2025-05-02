@@ -20,7 +20,8 @@ import { Expense } from '@expenses/Expense';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+
 })
 export class DashboardComponent implements OnInit {
   @ViewChildren(BaseChartDirective) charts: QueryList<BaseChartDirective> | undefined;
