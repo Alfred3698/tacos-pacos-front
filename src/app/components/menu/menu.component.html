@@ -1,4 +1,4 @@
-<div class="menu-container">
+<div class="menu-container" [class.minimized]="isSidebarMinimized">
   <div class="menu-header-logo" style="width: 100%;">
     <div class="row">
       <div class="col-12 sm-12 md-12">
@@ -12,7 +12,7 @@
    <div class="row">
       <div class="col-12 sm-12 md-12">
         <div class="content-current-title">
-          <p>{{getSucursal().description}}</p>
+          <p *ngIf="!isSidebarMinimized">{{getSucursal().description}}</p>
         </div>
       </div>
     </div> 
@@ -28,7 +28,7 @@
             data-placement="top"
             title="Tooltip on top"
           ></i>
-          <span>{{ item.nombre }}</span>
+          <span *ngIf="!isSidebarMinimized">{{ item.nombre }}</span>
         </a>
       </li>
     </ul>
@@ -51,7 +51,7 @@
       <li class="list-item">
         <a (click)="logout()">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
-          <span>Cerrar sesión</span>
+          <span *ngIf="!isSidebarMinimized">Cerrar sesión</span>
         </a>
       </li>
     </ul>

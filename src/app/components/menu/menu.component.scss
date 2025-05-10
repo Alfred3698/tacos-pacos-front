@@ -10,6 +10,11 @@
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.menu-container.minimized {
+  width: 4rem;
+}
+
 .menu-header-logo {
   width: 10rem;
   height: 4rem;
@@ -128,3 +133,4 @@ footer {
     cursor: pointer;
   }
 }
+

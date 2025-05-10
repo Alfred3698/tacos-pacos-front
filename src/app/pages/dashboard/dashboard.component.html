@@ -21,7 +21,7 @@
                                     (checkedEvent)="onCheckedEvent($event)"></app-primary-button>
                                 <div style="text-align: center;">
                                     <i class="fas fa-chart-simple" style="color: #3c8be6;" aria-hidden="true"></i>&nbsp;
-                                    <label style="font-weight: bold;" [ngStyle]="{'color': chartColors.profit}">{{profitPercent}}</label>
+                                    <label style="font-weight: bold; font-size: 30pt;" [ngStyle]="{'color': chartColors.profit}">{{profitPercent}}</label>
                                 </div>
                             </div>
                         </div>
@@ -205,8 +205,28 @@
                     <!-- ********* CUENTAS POR COBRAR *********-->
                     <p-accordionTab header="Cuentas por cobrar">
                         <div class="row">
-                            <div class="col-5 md-5 sm-12">
-                                <table style="width: 100%;">
+                            <div class="">
+                                <p-table [value]="cuentasPorCobrar">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                           <!--  <th>No.</th> -->
+                                            <th>Concepto</th>
+                                            <th>Monto</th>
+                                            <th>Pago</th>
+                                            <th>Tipo de pago</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-cc let-i="index">
+                                        <tr>
+                                          <!--   <td>{{i + 1}}</td> -->
+                                            <td>{{cc.concept}}</td>
+                                            <td>{{cc.amount | currency}}</td>
+                                            <td>{{cc.isPay?'SI':'NO'}}</td>
+                                            <td>{{!cc.operationType ? '-' : cc.operationType.name}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                                <!-- <table style="width: 100%;">
                                     <thead style="background-color: #a0a0a0; font-size: 11pt;">
                                         <tr>
                                             <th style="background-color: #a0a0a0; width: 5%;"></th>
@@ -229,7 +249,7 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> -->
                             </div>
                             <div class="col-3 md-3 sm-12"></div>
                         </div>

@@ -9,6 +9,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
+  isSidebarMinimized: boolean = false;
   currentPage: string = ""
   messageAlert: string = ""
   showAlert: boolean = true
@@ -69,6 +70,10 @@ export class MainComponent {
     let minMaxDate = this.dates.getStartAndEndYear(this.currentYear)
     this.minDate = this.dates.convertToDate(minMaxDate.start)
     this.maxDate = this.dates.convertToDate(minMaxDate.end)
+  }
+
+  toggleSidebar() {
+    this.isSidebarMinimized = !this.isSidebarMinimized;
   }
 
   openModal(template: TemplateRef<any>) {

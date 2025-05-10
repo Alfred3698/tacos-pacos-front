@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-  @Input() isSidebarMinimized: boolean = true;
+  @Input() isSidebarMinimized: boolean = false;
   isMenuOpen: boolean = true;
   usuario: any = {}
   marcaSeleccionada : any = {}
@@ -35,10 +35,6 @@ export class MenuComponent {
     this.usuario = JSON.parse(authService.getUserLogged())
     let marcaSeleccionada = sessionStorage.getItem('marcaSeleccionada') 
     this.marcaSeleccionada = JSON.parse(marcaSeleccionada == null ? '': marcaSeleccionada)
-  }
-
-  toggleMenu() {
-    this.isMenuOpen = true;
   }
 
   logout() {

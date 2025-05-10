@@ -59,6 +59,7 @@ import { DecimalOnlyDirective } from './directivas/decimal-only.directive';
 import { LoaderComponent } from './components/loader/loader.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AccordionModule } from 'primeng/accordion';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { AccordionModule } from 'primeng/accordion';
     BrowserAnimationsModule,
     ModalModule,
     AccordionModule,
+    TableModule,
     ModalModule.forRoot(),
     SelectDropDownModule,
     ToastrModule.forRoot({
