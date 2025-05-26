@@ -93,3 +93,14 @@ loader {
   position: absolute;
   left: 0%;
 }
+
+::ng-deep .custom-accordion .card {
+  border: 1px solid #d1d2e0;
+  background-color: transparent;
+  margin: 0;
+}
+
+::ng-deep .custom-accordion .card-header {
+  background-color: transparent !important;
+  border-bottom: 1px solid #d1d2e0;
+}

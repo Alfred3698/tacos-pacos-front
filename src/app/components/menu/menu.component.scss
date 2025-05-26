@@ -6,13 +6,18 @@
   height: 100%;
   background-color: $primaryColor;
   color: $fontColor;
-  border-right: solid 1px $primaryColor;
-  font-size: 10pt;
+  transition-duration: 300ms;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.menu-container.minimized {
+  width: 4rem;
+}
+
 .menu-header-logo {
   width: 10rem;
   height: 4rem;
-  background-color: bisque;
 }
 
 .logo-content {
@@ -22,47 +27,94 @@
   justify-content: center;
   align-items: center;
   padding: 0.2rem 0;
-  background-color: $primaryColor;
+  background-color: #f1f1f1;
 }
+
 .content-current-title {
   width: 100%;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-weight: 800;
-  font-size: 0.8rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 12px;
   text-align: center;
-  background-color: #ffca2e;
+  background-color: #fec417;
 }
+
+.menu-list-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 92%;
+}
+
 .menu-list-content ul {
   list-style: none;
   padding: 0;
   margin: 1.5rem 0;
 }
+
 .list-item {
-  padding: 0.3rem 0.3rem;
-  margin: 0.5rem 0;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin: .5rem;
+  padding: .5rem;
+
+  &:hover {
+    background-color: #907f9b31;
+    border-radius: 10px;
+  }
+
+  i {
+    font-size: 20px;
+    text-align: center;
+    padding-right: 0.5rem;
+    margin-left: 0.3rem;
+    /* margin-top: .2rem; */
+  }
+
+  & span {
+    font-size: 12px;
+    margin-bottom: .4rem;
+    text-align: center;
+  }
+
+  &.selected {
+    background-color: var(--green-color);
+    border-radius: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+
+  }
+  
+  &.no-selected {
+    color: #fff;
+    display: flex;
+    align-items: center;
+   
+  }
 }
-.list-item a:hover {
+/* .list-item a:hover {
   opacity: 1;
-  color: #ffca2e;
+  color: #fec417;
 }
 .selected {
-  color: #ffca2e;
+  color: #fec417;
 }
 .no-selected {
   color: #fff;
-}
+} */
 
 .menu-list-content ul li i {
   font-size: 1.2rem;
   margin-right: 3%;
 }
 a {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-size: 0.9rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
   text-decoration: none;
   color: $fontColor;
 }
+
 .footer-content {
   position: absolute;
   display: flex;
@@ -81,3 +133,4 @@ footer {
     cursor: pointer;
   }
 }
+

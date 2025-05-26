@@ -1,27 +1,54 @@
-.container {
+  .store-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-  }
-  
-  .card {
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
-    text-align: center;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
+    font-family: "Montserrat", sans-serif;
+    /* background: #323663;
+    background: linear-gradient(360deg, rgba(50, 54, 99, 0.3) 0%, rgba(255, 255, 255, 1) 100%); */
 
-  button {
-    width: 100%;
+
+    h4 {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    p {
+      font-size: 14px;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    &_form {
+      display: flex;
+      flex-direction: column;
+      width: 40%;
+
+      @media (max-width: 768px) {
+        width: 80%;
+      }
+
+      label {
+        font-size: 12px;
+        margin-bottom: 5px;
+      }
+
+      select {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #d1d2e0;
+        border-radius: .5rem;
+        outline: none;
+        font-size: 14px;
+        background: transparent;
+      }
+
+      button {
+        padding: 14px;
+        margin-top: 20px;
+        border-radius: .5rem !important;
+      }
+    }
   }
-  

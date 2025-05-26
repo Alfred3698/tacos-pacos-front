@@ -10,6 +10,7 @@ import { Pages } from 'src/app/util/util';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
+  @Input() isSidebarMinimized: boolean = false;
   isMenuOpen: boolean = true;
   usuario: any = {}
   marcaSeleccionada : any = {}

@@ -1,21 +1,21 @@
-<div class="menu-container">
+<div class="menu-container" [class.minimized]="isSidebarMinimized">
   <div class="menu-header-logo" style="width: 100%;">
     <div class="row">
       <div class="col-12 sm-12 md-12">
         <div class="logo-content">
-          <img src="../../assets/logo.png" alt="" width="90" height="45" />
+          <img src="../../assets/logo-tacospacos.svg" alt="Logo Tacos Pacos" width="95"/>
           <!-- <img class="logo" src="{{ marcaSeleccionada!.sucursal!.logoUrl }}" /> --->
         </div>
       </div>
     </div>
 
-    <div class="row">
+   <div class="row">
       <div class="col-12 sm-12 md-12">
         <div class="content-current-title">
-          <strong>{{getSucursal().description}}</strong>
+          <p *ngIf="!isSidebarMinimized">{{getSucursal().description}}</p>
         </div>
       </div>
-    </div>
+    </div> 
     
   </div>
   <div class="menu-list-content">
@@ -28,7 +28,7 @@
             data-placement="top"
             title="Tooltip on top"
           ></i>
-          {{ item.nombre }}
+          <span *ngIf="!isSidebarMinimized">{{ item.nombre }}</span>
         </a>
       </li>
     </ul>
@@ -46,12 +46,15 @@
       ></i>
       Proveedores
     </a> -->
-    <div class="footer-content">
-      <footer>
+  
+    <ul>
+      <li class="list-item">
         <a (click)="logout()">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span *ngIf="!isSidebarMinimized">Cerrar sesión</span>
         </a>
-      </footer>
-    </div>
+      </li>
+    </ul>
+   
   </div>
 </div>

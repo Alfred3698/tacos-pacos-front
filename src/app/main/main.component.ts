@@ -13,6 +13,7 @@ export class MainComponent {
   messageAlert: string = ""
   showAlert: boolean = true
   dates = new Dates()
+  isSidebarMinimized: boolean = false;
 
   months: any[] = new Dates().getMonths()
   years: number[] = new Dates().getYears()
@@ -68,6 +69,10 @@ export class MainComponent {
     let minMaxDate = this.dates.getStartAndEndYear(this.currentYear)
     this.minDate = this.dates.convertToDate(minMaxDate.start)
     this.maxDate = this.dates.convertToDate(minMaxDate.end)
+  }
+
+  toggleSidebar() {
+  this.isSidebarMinimized = !this.isSidebarMinimized;
   }
 
   openModal(template: TemplateRef<any>) {
