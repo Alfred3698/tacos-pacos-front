@@ -13,6 +13,7 @@ import { Charts } from '@util/Charts';
 import { ResultService } from '../results/result.service';
 import { Sale } from '@sales/Sale';
 import { Expense } from '@expenses/Expense';
+import { ChangeDetectorRef } from '@angular/core';
 
 //import { default as Annotation } from 'chartjs-plugin-annotation';
 
@@ -24,6 +25,18 @@ import { Expense } from '@expenses/Expense';
 })
 export class DashboardComponent implements OnInit {
   @ViewChildren(BaseChartDirective) charts: QueryList<BaseChartDirective> | undefined;
+
+  activeCard: string | null = null;
+
+  toggleCard(card: string): void {
+    this.activeCard = this.activeCard === card ? null : card;
+
+    if (this.activeCard === 'ventas') {
+      setTimeout(() => this.updateCharts(), 0);
+    }
+
+  }
+
 
   readonly balanceType = BalanceType
 
@@ -57,6 +70,7 @@ export class DashboardComponent implements OnInit {
   cuentasPorCobrar: Array<any> = []
 
   isLoadingBalance: boolean = true
+  isLoadingVentas: boolean = true
   isLoadingGastos: boolean = true
   isLoadingCuentas: boolean = true
 
@@ -66,8 +80,10 @@ export class DashboardComponent implements OnInit {
     private toast: ToastrService,
     private salesService: SalesService,
     private expenseService: ExpenseService,
-    private resultService: ResultService) {
+    private resultService: ResultService,
+    private cdr: ChangeDetectorRef) {
 
+    
     mainService.setPageName(Pages.MAIN)
   }
 
@@ -238,9 +254,11 @@ export class DashboardComponent implements OnInit {
   async getReportSalesByDateRange(startDate: string, endDate: string) {
     //this.loading.start()
     this.isLoadingBalance = true
+    this.isLoadingVentas = true
     this.sales = []
     this.salesService.getReportSalesByDateRange(this.brandSelected.id, startDate, endDate).subscribe({
       next: (data: any) => {
+        this.isLoadingVentas = false
         this.isLoadingBalance = false
         if (Array.isArray(data)) {
           let sales = data.map((s: any) => {
@@ -274,7 +292,9 @@ export class DashboardComponent implements OnInit {
         }
       },
       error: (e) => {
+        this.isLoadingVentas = false
         this.isLoadingBalance = false
+        this.cdr.detectChanges();
        // this.loading.stop()
         this.toast.error("Ocurrio un error al intentar obtener las ventas")
       },
@@ -284,6 +304,7 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
+
 
   /*addPlatafformsData(data: any) {
     let parrot = data.reportChannel.find((s: any) => s.channel == ReportChannel.PARROT)
