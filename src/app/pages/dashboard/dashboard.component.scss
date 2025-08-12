@@ -98,6 +98,7 @@ loader {
   border: 1px solid #d1d2e0;
   background-color: transparent;
   margin: 0;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 ::ng-deep .custom-accordion .card-header {
@@ -139,7 +140,111 @@ loader {
 
 .card-title {
   align-content: center;
-  font-size: 16px;
+  font-size: 14px;
   margin: 0 0 0 1rem;
   font-weight: 400;
+}
+
+.active-card {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+}
+
+.active-card.card-1 {
+  background-color: #fcbf49;
+  border: none;
+  color:#fff;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.active-card.card-2 {
+  background-color: #3d5a80;
+  border: none;
+  color:#fff;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.active-card.card-3 {
+  background-color: #7dcfb6;
+  border: none;
+  color:#fff;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.active-card.card-4 {
+  background-color: #ee6c4d;
+  border: none;
+  color:#fff;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+
+.table-scroll {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+
+
+.ng-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  color: #0f172a; 
+}
+
+.ng-table thead th {
+  position: sticky; top: 0;
+  background: #f8fafc;         
+  color: #334155;               
+  font-weight: 600;
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.ng-table tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eef2f7;
+  vertical-align: middle;
+}
+
+.ng-table tbody tr:last-child td { border-bottom: 0; }
+
+.row-hover:hover { background: #f9fbff; } 
+
+.col-index { width: 64px; color: #64748b; }      
+
+.td-amount { font-variant-numeric: tabular-nums; }
+
+
+.chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 20px;
+  background: #f1f5f9; 
+  color: #475569;
+}
+.chip-success { background: #e7f8ec; color: #166534; }
+.chip-danger  { background: #fdecec; color: #991b1b; }
+
+
+@media (max-width: 640px) {
+  .ng-table thead { display: none; }
+  .ng-table, .ng-table tbody, .ng-table tr, .ng-table td { display: block; width: 100%; }
+  .ng-table tbody tr { border-bottom: 1px solid #e5e7eb; }
+  .ng-table tbody td {
+    display: flex; justify-content: space-between; gap: 12px;
+    padding: 12px 16px;
+  }
+  .ng-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600; color: #475569;
+  }
+  .col-right, .col-center { text-align: right; }
 }

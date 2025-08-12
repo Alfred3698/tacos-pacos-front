@@ -1,8 +1,8 @@
 <div class="col-12 sm-12 md-12">   
-    <div class="m-4">
+    <div class="mx-4 mb-4">
         <div class="row">
             <div class="col-12 col-lg-3">
-                <div class="card h-100" (click)="toggleCard('balance')">
+                <div class="card h-100 card-1" (click)="toggleCard('balance')" [class.active-card]="activeCard === 'balance'">
                     <div class="card-body d-block d-lg-flex">
                         <div class="card-circle circle-1">
                             <i class="fa-solid fa-scale-balanced"></i>
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="card h-100" (click)="toggleCard('ventas')">
+                <div class="card h-100 card-2" (click)="toggleCard('ventas')" [class.active-card]="activeCard === 'ventas'">
                     <div class="card-body d-block d-lg-flex">
                         <div class="card-circle circle-2">
                             <i class="fa-solid fa-sack-dollar"></i>
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="card h-100" (click)="toggleCard('gastos')">
+                <div class="card h-100 card-3" (click)="toggleCard('gastos')" [class.active-card]="activeCard === 'gastos'">
                     <div class="card-body d-block d-lg-flex">
                         <div class="card-circle circle-3">
                             <i class="fa-solid fa-money-bill"></i>
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="card h-100" (click)="toggleCard('cuentas')">
+                <div class="card h-100 card-4" (click)="toggleCard('cuentas')" [class.active-card]="activeCard === 'cuentas'">
                     <div class="card-body d-block d-lg-flex">
                         <div class="card-circle circle-4">
                             <i class="fa-solid fa-file-invoice-dollar"></i>
@@ -51,25 +51,25 @@
         <ng-container *ngIf="activeCard === 'balance'">
             <div class="row">
                 <div class="d-flex justify-content-between">
-                    <app-primary-button  description="{{balanceType.VENTAS}}" icon="dollar-sign"
+                    <app-primary-button  description="{{balanceType.VENTAS}}" 
                         total="{{totalSales | currency}}" backgrounColor="blueBtn"
                         (checkedEvent)="onCheckedEvent($event)"></app-primary-button>
 
-                    <app-primary-button description="{{balanceType.GASTOS}}" icon="arrow-trend-down"
+                    <app-primary-button description="{{balanceType.GASTOS}}" 
                         total="{{totalExpenses | currency}}" backgrounColor="orangeBtn"
                         (checkedEvent)="onCheckedEvent($event)"></app-primary-button>
 
-                    <app-primary-button description="{{balanceType.PROFIT}}" icon="money-bill-trend-up"
+                    <app-primary-button description="{{balanceType.PROFIT}}" 
                         total="{{profit | currency}}" backgrounColor="greenBtn"
                         (checkedEvent)="onCheckedEvent($event)"></app-primary-button>
                     <div style="text-align: center;">
-                        <i class="fas fa-chart-simple" style="color: #3c8be6;" aria-hidden="true"></i>&nbsp;
-                        <label style="font-weight: bold;" [ngStyle]="{'color': chartColors.profit}">{{profitPercent}}</label>
+                        <!-- <i class="fas fa-chart-simple" style="color: #3c8be6;" aria-hidden="true"></i>&nbsp; -->
+                        <label style="font-weight: bold; font-size: 2rem;" [ngStyle]="{'color': chartColors.profit}">{{profitPercent}}</label>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-8 md-8 sm-12">
+                <div class="col-12 md-12 sm-12">
                     <canvas style="height: 80px;" baseChart class="chart" [data]="barChartDataBalance"
                         [options]="barChartOptions" [type]="'bar'">
                     </canvas>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
 
-                <div class="col-4 md-4 sm-12">
+                <!-- <div class="col-4 md-4 sm-12">
                     <div class="row indicator-row">
                         <div class="col-4 md-4 sm-12 ellipsis" title="Ventas" style="text-align:end;align-content:center;font-size: 9pt;">
                             <strong>Ventas</strong>
@@ -165,6 +165,8 @@
                         </div>
                     </div>
                 </div>
+ -->
+
             </div>
         </ng-container>
         <ng-container *ngIf="activeCard === 'ventas'">
@@ -246,7 +248,7 @@
         <ng-container *ngIf="activeCard === 'cuentas'">
              <div class="row">
                 <div class="col-12 md-12 sm-12">
-                    <table style="width: 100%;">
+                    <!-- <table style="width: 100%;">
                         <thead style="background-color: #a0a0a0; font-size: 11pt;">
                             <tr>
                                 <th style="background-color: #a0a0a0; width: 5%;"></th>
@@ -269,9 +271,38 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
+                    <div class="table-scroll">
+                        <table class="ng-table" role="table" aria-label="Cuentas por cobrar">
+                            <thead>
+                                <tr>
+                                    <th class="col-index">#</th>
+                                    <th>Concepto</th>
+                                    <th class="col-right">Monto</th>
+                                    <th class="col-center">Pago</th>
+                                    <th>Tipo de Pago</th>
+                                </tr>
+                            </thead>
+                    
+                            <tbody>
+                                <tr class="row-hover" *ngFor="let cc of cuentasPorCobrar; let i = index; trackBy: trackCc">
+                                    <td class="col-index" data-label="#"> {{ i + 1 }} </td>
+                                    <td data-label="Concepto"> {{ cc.concept }} </td>
+                                    <td class="col-right td-amount" data-label="Monto"> {{ cc.amount | currency }} </td>
+                                    <td class="col-center" data-label="Pago">
+                                        <span class="chip" [class.chip-success]="cc.isPay" [class.chip-danger]="!cc.isPay">
+                                            {{ cc.isPay ? 'Sí' : 'No' }}
+                                        </span>
+                                    </td>
+                                    <td data-label="Tipo de Pago">
+                                        {{ cc.operationType?.name || '-' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>       
                 </div>
-                <div class="col-3 md-3 sm-12"></div>
+                
             </div>
 
         </ng-container>

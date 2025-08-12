@@ -5,8 +5,8 @@
     align-items: center;
     height: 100vh;
     font-family: "Montserrat", sans-serif;
-    /* background: #323663;
-    background: linear-gradient(360deg, rgba(50, 54, 99, 0.3) 0%, rgba(255, 255, 255, 1) 100%); */
+    background: #323663;
+    background: linear-gradient(360deg, rgba(50, 54, 99, 0.3) 0%, rgba(255, 255, 255, 1) 100%); 
 
 
     h4 {
@@ -26,6 +26,7 @@
       flex-direction: column;
       width: 40%;
 
+
       @media (max-width: 768px) {
         width: 80%;
       }
@@ -38,7 +39,7 @@
       select {
         padding: 10px;
         margin-bottom: 20px;
-        border: 1px solid #d1d2e0;
+        border: 1px solid #a0a0ab;
         border-radius: .5rem;
         outline: none;
         font-size: 14px;

@@ -26,17 +26,15 @@ import { ChangeDetectorRef } from '@angular/core';
 export class DashboardComponent implements OnInit {
   @ViewChildren(BaseChartDirective) charts: QueryList<BaseChartDirective> | undefined;
 
-  activeCard: string | null = null;
+  activeCard: string = 'balance';
 
   toggleCard(card: string): void {
-    this.activeCard = this.activeCard === card ? null : card;
+  this.activeCard = card;
 
-    if (this.activeCard === 'ventas') {
-      setTimeout(() => this.updateCharts(), 0);
-    }
-
+  if (this.activeCard === 'ventas') {
+    setTimeout(() => this.updateCharts(), 0);
   }
-
+}
 
   readonly balanceType = BalanceType
 
@@ -67,6 +65,7 @@ export class DashboardComponent implements OnInit {
   typeFilterExpenses: string = 'ALL'
 
   /** CUENTAS POR COBRAR */
+  trackCc = (_: number, cc: any) => cc?.id ?? _;
   cuentasPorCobrar: Array<any> = []
 
   isLoadingBalance: boolean = true

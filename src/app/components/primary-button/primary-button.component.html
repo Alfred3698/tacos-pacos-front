@@ -1,13 +1,11 @@
 <div class="container">
     <div class="row">
-        <div class="col-1 md-1 sm-12">
-            <input type="checkbox" (change)="onChecked($event)" checked>
+              
+        <div class="top-division {{backgrounColor}}" (click)="handleClick()">
+            <input type="checkbox" (change)="onChecked($event)" checked style="margin-right: 5px;">
+            {{description}}
         </div>
-        <div class="col-9 md-9 sm-12">
-            <div class="top-division {{backgrounColor}}" (click)="handleClick()">
-                <i class="fas fa-{{icon}} icon"></i> {{description}}
-            </div>
-        </div>
+      
     </div>
     <div class="row">
         <div class="col-12 md-12 sm-12">
