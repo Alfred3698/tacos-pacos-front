@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://reportes.servicecoders.xyz/'
+    apiUrl: 'https://tacos-reportes-production.up.railway.app/'
 };
